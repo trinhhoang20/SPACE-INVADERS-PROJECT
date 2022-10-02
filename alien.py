@@ -38,6 +38,9 @@ class Alien(Sprite):
         self.settings = game.settings
         self.image = pg.image.load('images/alien0.bmp')
         self.rect = self.image.get_rect()
+
+        self.ufo_image = pg.image.load('images/ufo0.png')
+
         self.rect.y = self.rect.height
         self.x = float(self.rect.x)
         self.type = type
@@ -118,13 +121,22 @@ class Aliens:
         alien.x = alien_width + 1.5 * alien_width * alien_number 
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 1.2 * alien.rect.height * row_number 
-        self.aliens.add(alien)     
+        self.aliens.add(alien)  
+    def create_ufo(self):
+        type = 4
+        alien = Alien(game=self.game, type=type)
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width
+        alien.rect.y = alien.rect.height + 0 * alien.rect.height
+        self.aliens.add(alien)
+
     def create_fleet(self):
         number_aliens_x = self.get_number_aliens_x(self.model_alien.rect.width) 
         number_rows = self.get_number_rows(self.ship.rect.height, self.model_alien.rect.height)
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
-                   self.create_alien(alien_number, row_number)
+                self.create_alien(alien_number, row_number)
+        #self.create_ufo()
     def check_fleet_edges(self):
         for alien in self.aliens.sprites(): 
             if alien.check_edges():
